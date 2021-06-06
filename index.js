@@ -5,6 +5,7 @@ const cors = require('cors')
 const app = express()
 const port = 3003
 app.use(cors())
+app.use(express.static('client/build'))
 
 const uri =
   'mongodb+srv://max:insert69@cluster0.gqoe4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
@@ -35,7 +36,7 @@ async function main() {
   }
 }
 
-app.get('/', async (req, res) => {
+app.get('/test', async (req, res) => {
   const list = await main().catch(console.error)
   // console.log(333333, list)
   res.status(200).json(list)

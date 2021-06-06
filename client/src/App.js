@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 function App() {
-  const url = 'http://localhost:3003'
+  const url = '/test'
 
   const [res, setRes] = useState()
 
