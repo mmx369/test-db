@@ -33,7 +33,7 @@ const client = MongoClient.connect(
     //Insert a single document
     col.insertOne({ hello: 'Amazon DocumentDB' }, function (err, result) {
       //Find the document that was previously written
-      col.find({}.toArray(), function (err, result) {
+      col.find({}, function (err, result) {
         //Print the result to the screen
         console.log(result)
         //Close the connection
