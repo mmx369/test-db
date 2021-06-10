@@ -16,6 +16,9 @@ const ca = [fs.readFileSync('rds-combined-ca-bundle.pem')]
 
 //Create a MongoDB client, open a connection to Amazon DocumentDB as a replica set,
 //  and specify the read preference as secondary preferred
+
+let db
+
 const client = MongoClient.connect(
   'mongodb://Administartor:insert69@kr-web.cluster-cj8jptizxiwh.eu-central-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false',
   {
@@ -23,24 +26,11 @@ const client = MongoClient.connect(
     sslCA: ca,
     useNewUrlParser: true,
   },
+
   function (err, client) {
     if (err) throw err
     //Specify the database to be used
     db = client.db('test')
-
-    //Specify the collection to be used
-    col = db.collection('profiles')
-    //Insert a single document
-    col.insertOne({ hello: 'Amazon DocumentDB' }, function (err, result) {
-      //Find the document that was previously written
-      col.find({}, function (err, result) {
-        //Print the result to the screen
-        console.log(result)
-        //Close the connection
-        client.close()
-        return result
-      })
-    })
   }
 )
 
@@ -83,10 +73,22 @@ const client = MongoClient.connect(
 // }
 
 app.get('/test', async (req, res) => {
-  const list = await main().catch(console.error)
-  // console.log(333333, list)
-  res.status(200).json(list)
+  let col = db.collection('profiles')
+  col.insertOne({ hello: 'Amazon DocumentDB' }, function (err, result) {
+    col.find({}, function (err, result) {
+      console.log(result)
+      res.status(200).json(result)
+    })
+  })
 })
+
+// app.get('/test', async (req, res) => {
+//     let col = db.collection('profiles')
+//     col.insertOne({ hello: 'Amazon DocumentDB' },
+//       function (err, result) {col.find({}, function (err, result) {
+//         console.log(result)
+//         res.status(200).json(result)
+//     })})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
