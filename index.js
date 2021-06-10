@@ -75,8 +75,8 @@ const client = MongoClient.connect(
 app.get('/test', async (req, res) => {
   let col = db.collection('profiles')
   col.insertOne({ hello: 'Amazon DocumentDB' }, function (err, result) {
-    col.find({}, function (err, result) {
-      console.log(result)
+    col.find({}, function (err, result2) {
+      console.log(result2)
       res.status(200).json({ message: 'eeeeeeee' })
     })
   })
