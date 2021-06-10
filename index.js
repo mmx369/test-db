@@ -76,8 +76,10 @@ app.get('/test', async (req, res) => {
   let col = db.collection('profiles')
   col.insertOne({ hello: 'Amazon DocumentDB' }, function (err, result) {
     col.find({}, function (err, result2) {
-      console.log(result2.toArray())
-      res.status(200).json(result2.toArray())
+      result2.toArray().then((data) => {
+        console.log(data)
+        res.status(200).json(data)
+      })
     })
   })
 })
